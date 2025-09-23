@@ -38,7 +38,8 @@ function onSearch(e) {
       if (!data.hits.length) {
         iziToast.info({
           title: 'No results',
-          message: 'No images found',
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
           position: 'topRight',
         });
         return;
