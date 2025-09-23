@@ -40,7 +40,6 @@ export function createGallery(images) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
-
   lightbox.refresh();
 }
 

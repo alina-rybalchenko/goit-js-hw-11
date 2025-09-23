@@ -1,4 +1,5 @@
 import './css/styles.css';
+import './css/css-loader.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
@@ -31,8 +32,6 @@ function onSearch(e) {
   clearGallery();
   showLoader();
 
-  inputEl.value = '';
-
   getImagesByQuery(query)
     .then(data => {
       if (!data.hits.length) {
@@ -53,12 +52,15 @@ function onSearch(e) {
         position: 'topRight',
       });
     })
-    .catch(() => {
+    .catch(error => {
       iziToast.error({
         title: 'Error',
-        message: 'Something went wrong',
+        message: `Something went wrong: ${error.message}`,
         position: 'topRight',
       });
     })
-    .finally(() => hideLoader());
+    .finally(() => {
+      hideLoader();
+      inputEl.value = '';
+    });
 }
