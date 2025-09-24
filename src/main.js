@@ -3,22 +3,16 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import { getImagesByQuery } from './js/pixabay-api.js';
-import { createGallery, clearGallery } from './js/render-functions.js';
+import {
+  createGallery,
+  clearGallery,
+  showLoader,
+  hideLoader,
+} from './js/render-functions.js';
 
-// DOM
 const formEl = document.querySelector('.form');
 const inputEl = formEl.querySelector('input[name="search-text"]');
-const loaderEl = document.querySelector('.loader');
 
-// функції для лоадера
-function showLoader() {
-  loaderEl.classList.remove('hidden');
-}
-function hideLoader() {
-  loaderEl.classList.add('hidden');
-}
-
-// submit
 formEl.addEventListener('submit', onSearch);
 
 function onSearch(e) {
@@ -36,6 +30,8 @@ function onSearch(e) {
 
   clearGallery();
   showLoader();
+
+  inputEl.value = '';
 
   getImagesByQuery(query)
     .then(data => {
@@ -57,15 +53,14 @@ function onSearch(e) {
         position: 'topRight',
       });
     })
-    .catch(error => {
+    .catch(() => {
       iziToast.error({
         title: 'Error',
-        message: `Something went wrong: ${error.message}`,
+        message: 'Something went wrong',
         position: 'topRight',
       });
     })
     .finally(() => {
       hideLoader();
-      inputEl.value = '';
     });
 }
